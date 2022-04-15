@@ -1,0 +1,25 @@
+body{
+    background: linear-gradient(to left top, rgb(249, 168, 212), rgb(216, 180, 254), rgb(129, 140, 248));
+}
+
+.text-input{
+    left: 400px;
+}
+.info{
+    color: red;
+}
+
+#login{
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    width: 500px;
+    height: 300px;
+
+    margin: auto;
+    text-align: center;
+}
+
+#form-login{
+    padding: 114px;
+}

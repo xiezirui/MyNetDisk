@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disk.dao.UserMapper">
+
+    <resultMap id="getUser" type="User">
+        <result column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_password" property="password"/>
+        <result column="user_email" property="email"/>
+    </resultMap>
+
+    <insert id="addUser" parameterType="map">
+        insert into mynetdisk.user (id,user_name,user_password,user_email)
+        value (#{id},#{username},#{password},#{email})
+    </insert>
+
+    <select id="getUser" parameterType="map" resultMap="getUser">
+        select * from mynetdisk.user
+        where user_email = #{email} and user_password = #{password}
+    </select>
+
+</mapper>

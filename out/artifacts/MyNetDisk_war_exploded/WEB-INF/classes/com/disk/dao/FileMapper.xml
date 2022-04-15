@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disk.dao.FileMapper">
+
+    <resultMap id="fileResultMap" type="File">
+        <result column="fname" property="fileName"/>
+        <result column="fsize" property="fileSize"/>
+        <result column="format" property="fileFormat"/>
+    </resultMap>
+
+    <insert id="fileUpload" parameterType="map">
+        insert into mynetdisk.file (user_id,file_name,file_address,file_size,file_format)
+        value (#{id},#{fileName},#{fileAddress},#{fileSize},#{fileFormat})
+    </insert>
+
+    <select id="getFileByUserId" resultMap="fileResultMap">
+        select f.file_name fname,f.file_size fsize,f.file_format format
+        from mynetdisk.file f
+        where f.user_id = #{id}
+    </select>
+
+</mapper>

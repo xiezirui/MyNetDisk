@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="MyNetDisk:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/MyNetDisk_war</output-path>
+    <root id="archive" name="MyNetDisk_war.war">
+      <element id="artifact" artifact-name="MyNetDisk:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.4" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.11.0" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
