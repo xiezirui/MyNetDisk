@@ -1,9 +1,13 @@
-window.onclick = function () {
-    var click_button = document.getElementsByName("fileDownload")
+function but() {
+    var fileDownload = document.getElementById("fileDownload");
 
-    console.log(1)
+    var fileAll = fileDownload.value;
 
-    click_button.click = function (){
-        alert(1)
-    };
+    var fileAddress = fileAll.substr(0,fileAll.indexOf(","));
+    var fileName = fileAll.substring(fileAll.indexOf(",") + 1);
+
+    console.log(fileName)
+    console.log(fileAddress)
+
+    window.location.href = "http://localhost:8081/file.do?method=download&address=" + fileAddress + "&name=" + fileName;
 }

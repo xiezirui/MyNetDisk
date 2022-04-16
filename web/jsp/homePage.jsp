@@ -40,8 +40,9 @@
         </tr>
         <c:forEach var="file" items="${files}" varStatus="status">
             <tr style="text-align: center">
+
                 <td width="250px">
-                    <span><button name="fileDownload">${file.fileName}</button></span>
+                    <span><button id="fileDownload" value="${file.fileAddress},${file.fileName}" onclick="but()">${file.fileName}</button></span>
                 </td>
                 <td width="150px">
                     <span>${file.fileSize}</span>

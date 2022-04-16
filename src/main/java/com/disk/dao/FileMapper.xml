@@ -8,6 +8,7 @@
         <result column="fname" property="fileName"/>
         <result column="fsize" property="fileSize"/>
         <result column="format" property="fileFormat"/>
+        <result column="faddress" property="fileAddress"/>
     </resultMap>
 
     <insert id="fileUpload" parameterType="map">
@@ -16,7 +17,7 @@
     </insert>
 
     <select id="getFileByUserId" resultMap="fileResultMap">
-        select f.file_name fname,f.file_size fsize,f.file_format format
+        select f.file_name fname,f.file_size fsize,f.file_format format,f.file_address faddress
         from mynetdisk.file f
         where f.user_id = #{id}
     </select>

@@ -15,10 +15,12 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -29,7 +31,10 @@ import static com.disk.util.Constants.USER_SESSION;
 public class FileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+        String method = req.getParameter("method");
+        if (method.equals("download")){
+            fileDownload(req,resp);
+        }
     }
 
     @Override
@@ -68,6 +73,39 @@ public class FileServlet extends HttpServlet {
         }
     }
 
+    public void fileDownload(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String address = req.getParameter("address");
+        String name = req.getParameter("name");
 
 
+
+
+        //1.获取下载文件路径
+        String fileUrl = req.getSession().getServletContext().getRealPath("") + "WEB-INF\\upload\\" + address + "\\" + name;
+
+        //2.下载文件名
+        String fileName = fileUrl.substring(fileUrl.lastIndexOf("\\") + 1);
+
+        //3.让浏览器支持我们下载文件
+        resp.setHeader("Content-Disposition","attachment;filename="+fileName);
+
+        //4.下载文件输入流
+        FileInputStream fileInputStream = new FileInputStream(fileUrl);
+
+        //5.缓冲区
+        int len = 0;
+        byte[] buffer = new byte[1024];
+
+        //6.输出流
+        ServletOutputStream outputStream = resp.getOutputStream();
+
+        //7.FileOutputStream-->缓冲区   用输出流把文件输出到客户端
+        while ((len = fileInputStream.read(buffer)) > 0){
+            outputStream.write(buffer,0,len);
+        }
+
+        fileInputStream.close();
+        outputStream.close();
+
+    }
 }
