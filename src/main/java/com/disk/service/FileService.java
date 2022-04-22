@@ -11,4 +11,5 @@ public interface FileService {
 
     List<File> getFileByUserId(String id);
 
+    int deleteFile(String address);
 }

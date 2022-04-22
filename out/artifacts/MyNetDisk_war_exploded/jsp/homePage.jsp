@@ -22,14 +22,7 @@
 <span id="logo"><img src="/static/img/logo.svg" alt="logo"></span>
 <span style="position: fixed;left: 840px;margin-top: 4px"><h1>我的网盘</h1></span>
 
-<ul>
-    <li><button class="but" name="choose-button">全部</button></li>
-    <li><button class="but" name="choose-button">图片</button></li>
-    <li><button class="but" name="choose-button">视频</button></li>
-    <li><button class="but" name="choose-button">文件</button></li>
-</ul>
-
-<a class="file-upload" href="/jsp/uploadFile.jsp"><h5>上传文件</h5></a>
+<a class="file-upload" href="/jsp/uploadFile.jsp"><h5>文件上传</h5></a>
 
 <div>
     <table class="filelist" style="left: 108px">
@@ -49,6 +42,9 @@
                 </td>
                 <td width="100px">
                     <span>${file.fileFormat}</span>
+                </td>
+                <td width="100px">
+                    <span><button id="deleteButton" value="${file.fileAddress},${file.fileName}" onclick="delfile()">删除</button></span>
                 </td>
             </tr>
         </c:forEach>

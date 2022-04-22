@@ -9,4 +9,6 @@ public interface FileMapper {
     int fileUpload(HashMap map);
 
     List<File> getFileByUserId(String id);
+
+    int deleteFile(String address);
 }

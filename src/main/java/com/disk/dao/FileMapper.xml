@@ -19,7 +19,12 @@
     <select id="getFileByUserId" resultMap="fileResultMap">
         select f.file_name fname,f.file_size fsize,f.file_format format,f.file_address faddress
         from mynetdisk.file f
-        where f.user_id = #{id}
+        <where>
+            f.user_id = #{id}
+        </where>
     </select>
 
+    <delete id="deleteFile">
+        delete from mynetdisk.file where file_address = #{address}
+    </delete>
 </mapper>

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FileServiceImpl implements FileService{
+    @Override
     public int fileUpload(HashMap map) {
         SqlSession sqlSession = mybatisUtil.getSqlSession();
         FileMapper mapper = sqlSession.getMapper(FileMapper.class);
@@ -27,6 +28,7 @@ public class FileServiceImpl implements FileService{
         return i;
     }
 
+    @Override
     public List<File> getFileByUserId(String id) {
         SqlSession sqlSession = mybatisUtil.getSqlSession();
         FileMapper mapper = sqlSession.getMapper(FileMapper.class);
@@ -36,6 +38,29 @@ public class FileServiceImpl implements FileService{
         sqlSession.close();
 
         return files;
+    }
+
+    @Override
+    public int deleteFile(String address) {
+        SqlSession sqlSession = mybatisUtil.getSqlSession();
+
+        FileMapper mapper = sqlSession.getMapper(FileMapper.class);
+
+        int i = 0;
+        try {
+
+            i = mapper.deleteFile(address);
+
+            sqlSession.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+
+            sqlSession.rollback();
+        }finally {
+            sqlSession.close();
+        }
+
+        return i;
     }
 
     @Test
@@ -57,6 +82,15 @@ public class FileServiceImpl implements FileService{
         for (File file : files) {
             System.out.println(file);
         }
+    }
+
+    @Test
+    public void test3(){
+        FileServiceImpl fileService = new FileServiceImpl();
+
+        int i = fileService.deleteFile("6d9f7ae3-baa8-483f-8bf3-daf52b0459a41650369028002");
+
+        System.out.println();
     }
 
 }

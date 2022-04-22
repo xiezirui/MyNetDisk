@@ -6,13 +6,12 @@
 package com.disk.servlet;
 
 
-import com.disk.pojo.User;
 import com.disk.service.FileService;
 import com.disk.service.FileServiceImpl;
 import com.disk.util.FileUploadUtil;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.junit.Test;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -22,10 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 import static com.disk.util.Constants.MESSAGE;
-import static com.disk.util.Constants.USER_SESSION;
 
 
 public class FileServlet extends HttpServlet {
@@ -34,6 +35,8 @@ public class FileServlet extends HttpServlet {
         String method = req.getParameter("method");
         if (method.equals("download")){
             fileDownload(req,resp);
+        }else if (method.equals("deleteFile")){
+            deleteFile(req,resp);
         }
     }
 
@@ -108,4 +111,30 @@ public class FileServlet extends HttpServlet {
         outputStream.close();
 
     }
+
+    public void deleteFile(HttpServletRequest req, HttpServletResponse resp){
+        String address = req.getParameter("address");
+        String name = req.getParameter("name");
+
+        String fileUrl = req.getSession().getServletContext().getRealPath("") + "WEB-INF\\upload\\" + address + "\\" + name;
+        String fileUrlpar = req.getSession().getServletContext().getRealPath("") + "WEB-INF\\upload\\" + address;
+
+        try {
+
+            new File(fileUrl).delete();
+            new File(fileUrlpar).delete();
+
+            FileService fileService = new FileServiceImpl();
+
+            int i = fileService.deleteFile(address);
+
+            System.out.println(i);
+
+            resp.sendRedirect("/user.do?method=showFiles");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }
+
