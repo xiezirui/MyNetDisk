@@ -13,6 +13,7 @@ public class UserServiceImpl implements UserService {
 
     GetUserId getUserId = new GetUserId();
 
+    @Override
     public HashMap addUser(String username, String password, String email) {
         SqlSession sqlSession = null;
         UserMapper mapper = null;
@@ -47,6 +48,7 @@ public class UserServiceImpl implements UserService {
         return returnMap;
     }
 
+    @Override
     public User getUser(String email, String password) {
         SqlSession sqlSession = mybatisUtil.getSqlSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);

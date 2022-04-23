@@ -19,10 +19,17 @@
 </head>
 <body>
 
-<span id="logo"><img src="/static/img/logo.svg" alt="logo"></span>
+<span id="logo"><img src="/static/img/logo/logo.svg" alt="logo"></span>
 <span style="position: fixed;left: 840px;margin-top: 4px"><h1>我的网盘</h1></span>
+<span class="select-area">
+    <form action="${pageContext.request.contextPath}/user.do" method="get">
+        <input type="hidden" name="method" value="showFiles">
+        <input type="text" name="fileSelectName">
+        <input type="submit" value="搜索">
+    </form>
+</span>
 
-<a class="file-upload" href="/jsp/uploadFile.jsp"><h5>文件上传</h5></a>
+<a class="file-upload" href="/jsp/uploadFile.jsp"><img src="/static/img/icons/fileUpload-icon.svg" alt="fileUpload-icon"></a>
 
 <div>
     <table class="filelist" style="left: 108px">

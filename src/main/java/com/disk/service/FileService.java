@@ -9,7 +9,7 @@ import java.util.List;
 public interface FileService {
     int fileUpload(HashMap map);
 
-    List<File> getFileByUserId(String id);
+    List<File> getFileByUserIdandName(String id,String name);
 
     int deleteFile(String address);
 }

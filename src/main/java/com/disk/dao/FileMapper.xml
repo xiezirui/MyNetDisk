@@ -16,11 +16,14 @@
         value (#{id},#{fileName},#{fileAddress},#{fileSize},#{fileFormat})
     </insert>
 
-    <select id="getFileByUserId" resultMap="fileResultMap">
+    <select id="getFileByUserIdandName" resultMap="fileResultMap">
         select f.file_name fname,f.file_size fsize,f.file_format format,f.file_address faddress
         from mynetdisk.file f
         <where>
             f.user_id = #{id}
+            <if test="name != null">
+                and f.file_name like "%"#{name}"%"
+            </if>
         </where>
     </select>
 

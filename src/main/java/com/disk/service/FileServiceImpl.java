@@ -6,6 +6,7 @@
 package com.disk.service;
 
 import com.disk.dao.FileMapper;
+import com.disk.dao.UserMapper;
 import com.disk.pojo.File;
 import com.disk.util.mybatisUtil;
 import org.apache.ibatis.session.SqlSession;
@@ -29,11 +30,11 @@ public class FileServiceImpl implements FileService{
     }
 
     @Override
-    public List<File> getFileByUserId(String id) {
+    public List<File> getFileByUserIdandName(String id,String name) {
         SqlSession sqlSession = mybatisUtil.getSqlSession();
         FileMapper mapper = sqlSession.getMapper(FileMapper.class);
 
-        List<File> files = mapper.getFileByUserId(id);
+        List<File> files = mapper.getFileByUserIdandName(id, name);
 
         sqlSession.close();
 
@@ -63,6 +64,7 @@ public class FileServiceImpl implements FileService{
         return i;
     }
 
+
     @Test
     public void test(){
         HashMap<Object, Object> map = new HashMap<Object, Object>();
@@ -77,7 +79,9 @@ public class FileServiceImpl implements FileService{
 
     @Test
     public void test2(){
-        List<File> files = getFileByUserId("2f2a6be513ca49658c0d8b626db3d077");
+        FileServiceImpl fileService = new FileServiceImpl();
+
+        List<File> files = fileService.getFileByUserIdandName("a3ace03a927d4001a2202691a6949f4a", "p");
 
         for (File file : files) {
             System.out.println(file);

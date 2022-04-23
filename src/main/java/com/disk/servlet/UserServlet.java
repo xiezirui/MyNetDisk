@@ -42,12 +42,14 @@ public class UserServlet extends HttpServlet {
     }
 
     public void showFiles(HttpServletRequest req, HttpServletResponse resp){
+        String fileName = req.getParameter("fileSelectName");
+
         FileService fileService = new FileServiceImpl();
 
         User user = (User) req.getSession().getAttribute(USER_SESSION);
 
         if (user != null){
-            List<File> files = fileService.getFileByUserId(user.getId());
+            List<File> files = fileService.getFileByUserIdandName(user.getId(),fileName);
 
             req.setAttribute(FILES,files);
 
