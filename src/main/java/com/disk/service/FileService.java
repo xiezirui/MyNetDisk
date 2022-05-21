@@ -1,6 +1,7 @@
 package com.disk.service;
 
 import com.disk.pojo.File;
+import org.apache.ibatis.annotations.Param;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -11,5 +12,9 @@ public interface FileService {
 
     List<File> getFileByUserIdandName(String id,String name);
 
+    List<File> getShareFile(String id);
+
     int deleteFile(String address);
+
+    int updataFileState(String address,String state);
 }

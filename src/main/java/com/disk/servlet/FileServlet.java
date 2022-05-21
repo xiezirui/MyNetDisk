@@ -6,12 +6,18 @@
 package com.disk.servlet;
 
 
+import com.disk.pojo.Share;
+import com.disk.pojo.User;
 import com.disk.service.FileService;
 import com.disk.service.FileServiceImpl;
+import com.disk.service.ShareService;
+import com.disk.service.ShareServiceImpl;
+import com.disk.util.Constants;
+import com.disk.util.FileDownloadUtil;
 import com.disk.util.FileUploadUtil;
+import com.disk.util.GetShareFileAddress;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.junit.Test;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -22,8 +28,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
-import static com.disk.util.Constants.MESSAGE;
+import static com.disk.util.Constants.*;
 
 
 public class FileServlet extends HttpServlet {
@@ -34,6 +41,18 @@ public class FileServlet extends HttpServlet {
             fileDownload(req,resp);
         }else if (method.equals("deleteFile")){
             deleteFile(req,resp);
+        }else if (method.equals("showShareFile")){
+            showShareFile(req,resp);
+        }else if (method.equals("shareFile")){
+            shareFile(req,resp);
+        }else if (method.equals("gotoSetShareFilePwd")){
+            gotoSetShareFilePwd(req,resp);
+        }else if (method.equals("setSharePwd")){
+            setSharePwd(req,resp);
+        }else if (method.equals("fileInfo")){
+            fileInfo(req,resp);
+        }else if (method.equals("getShare")){
+            getShare(req,resp);
         }
     }
 
@@ -78,34 +97,9 @@ public class FileServlet extends HttpServlet {
         String name = req.getParameter("name");
 
 
+        FileDownloadUtil.download(req,resp,address,name);
 
 
-        //1.获取下载文件路径
-        String fileUrl = req.getSession().getServletContext().getRealPath("") + "WEB-INF\\upload\\" + address + "\\" + name;
-
-        //2.下载文件名
-        String fileName = fileUrl.substring(fileUrl.lastIndexOf("\\") + 1);
-
-        //3.让浏览器支持我们下载文件
-        resp.setHeader("Content-Disposition","attachment;filename="+fileName);
-
-        //4.下载文件输入流
-        FileInputStream fileInputStream = new FileInputStream(fileUrl);
-
-        //5.缓冲区
-        int len = 0;
-        byte[] buffer = new byte[1024];
-
-        //6.输出流
-        ServletOutputStream outputStream = resp.getOutputStream();
-
-        //7.FileOutputStream-->缓冲区   用输出流把文件输出到客户端
-        while ((len = fileInputStream.read(buffer)) > 0){
-            outputStream.write(buffer,0,len);
-        }
-
-        fileInputStream.close();
-        outputStream.close();
 
     }
 
@@ -122,10 +116,10 @@ public class FileServlet extends HttpServlet {
             new File(fileUrlpar).delete();
 
             FileService fileService = new FileServiceImpl();
+            ShareService shareService = new ShareServiceImpl();
 
             int i = fileService.deleteFile(address);
-
-            System.out.println(i);
+            shareService.deleteFile(address);
 
             resp.sendRedirect("/user.do?method=showFiles");
         }catch (Exception e){
@@ -133,6 +127,88 @@ public class FileServlet extends HttpServlet {
         }
     }
 
+    public void showShareFile(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
+        FileServiceImpl fileService = new FileServiceImpl();
+
+        User user = (User) req.getSession().getAttribute(USER_SESSION);
+
+        List<com.disk.pojo.File> files = fileService.getShareFile(user.getId());
+
+        for (com.disk.pojo.File file : files) {
+            System.out.println(file);
+        }
+
+        req.setAttribute(Constants.files,files);
+
+        req.getRequestDispatcher("/jsp/shareFile.jsp").forward(req,resp);
+    }
+
+    public void shareFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String address = req.getParameter("address");
+
+        FileServiceImpl fileService = new FileServiceImpl();
+
+        fileService.updataFileState(address,fileState_YES);
+
+        resp.sendRedirect("/file.do?method=showShareFile");
+    }
+
+    public void gotoSetShareFilePwd(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException {
+        String address = req.getParameter("address");
+        String uid = req.getParameter("uid");
+        String name = req.getParameter("name");
+
+        req.setAttribute(ADDRESS_PARAMETER,address);
+        req.setAttribute(UID_PARAMETER,uid);
+        req.setAttribute(FILENAME_PARAMETER,name);
+
+        req.getRequestDispatcher("/jsp/setShareFilePwd.jsp").forward(req,resp);
+    }
+
+    public void setSharePwd(HttpServletRequest req,HttpServletResponse resp) throws IOException, ServletException {
+        String address = req.getParameter(ADDRESS_PARAMETER);
+        String uid = req.getParameter(UID_PARAMETER);
+        String password = req.getParameter(PASSWORD_PARAMETER);
+        String name = req.getParameter(FILENAME_PARAMETER);
+
+        ShareServiceImpl shareService = new ShareServiceImpl();
+        int isSuccess = shareService.setSharePwd(uid, address, password, name, GetShareFileAddress.getAddress());
+
+        if (isSuccess == 1){
+            shareFile(req,resp);
+        }
+    }
+
+    public void fileInfo(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException {
+        String address = req.getParameter(ADDRESS_PARAMETER);
+
+        ShareServiceImpl shareService = new ShareServiceImpl();
+
+        List<Share> files = shareService.getFileInfo(address);
+
+        req.setAttribute(shareFiles,files);
+
+        req.getRequestDispatcher("/jsp/fileInfo.jsp").forward(req,resp);
+
+    }
+
+    public void getShare(HttpServletRequest req,HttpServletResponse resp){
+        String address = req.getParameter("address");
+        String password = req.getParameter("password");
+
+        ShareServiceImpl shareService = new ShareServiceImpl();
+
+        Share share = shareService.getShare(address, password);
+
+        System.out.println(share);
+
+        if (share != null){
+            FileDownloadUtil.download(req,resp,share.getFileAddress(),share.getFileName());
+        }if (share == null){
+            System.out.println("wrong");
+        }
+
+    }
 }
 

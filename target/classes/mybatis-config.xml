@@ -17,6 +17,7 @@
     <typeAliases>
         <typeAlias type="com.disk.pojo.User" alias="User"/>
         <typeAlias type="com.disk.pojo.File" alias="File"/>
+        <typeAlias type="com.disk.pojo.Share" alias="Share"/>
     </typeAliases>
 
     <environments default="development">
@@ -33,5 +34,6 @@
     <mappers>
         <mapper resource="com/disk/dao/UserMapper.xml"/>
         <mapper resource="com/disk/dao/FileMapper.xml"/>
+        <mapper resource="com/disk/dao/ShareMapper.xml"/>
     </mappers>
 </configuration>

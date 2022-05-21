@@ -11,5 +11,9 @@ public interface FileMapper {
 
     List<File> getFileByUserIdandName(@Param("id") String id, @Param("name") String name);
 
+    List<File> getShareFile(@Param("id") String id);
+
     int deleteFile(String address);
+
+    int updataFileState(@Param("address") String address,@Param("state") String state);
 }

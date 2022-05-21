@@ -2,3 +2,8 @@
     position: fixed;
     left: 600px;
 }
+
+div{
+    margin: 0px;
+    padding: 0px;
+}

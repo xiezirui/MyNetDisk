@@ -6,6 +6,7 @@ import com.disk.service.FileService;
 import com.disk.service.FileServiceImpl;
 import com.disk.service.UserService;
 import com.disk.service.UserServiceImpl;
+import com.disk.util.Constants;
 import org.omg.PortableInterceptor.USER_EXCEPTION;
 
 import javax.servlet.ServletException;
@@ -51,7 +52,7 @@ public class UserServlet extends HttpServlet {
         if (user != null){
             List<File> files = fileService.getFileByUserIdandName(user.getId(),fileName);
 
-            req.setAttribute(FILES,files);
+            req.setAttribute(Constants.files,files);
 
             try {
                 req.getRequestDispatcher("/jsp/homePage.jsp").forward(req,resp);

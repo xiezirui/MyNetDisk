@@ -6,16 +6,18 @@ public class File {
     private String fileAddress;
     private String fileSize;
     private String fileFormat;
+    private Integer fileShareState;
 
     public File() {
     }
 
-    public File(String id, String fileName, String fileAddress, String fileSize, String fileFormat) {
+    public File(String id, String fileName, String fileAddress, String fileSize, String fileFormat, Integer fileShareState) {
         this.id = id;
         this.fileName = fileName;
         this.fileAddress = fileAddress;
         this.fileSize = fileSize;
         this.fileFormat = fileFormat;
+        this.fileShareState = fileShareState;
     }
 
     public String getId() {
@@ -58,6 +60,14 @@ public class File {
         this.fileFormat = fileFormat;
     }
 
+    public Integer getFileShareState() {
+        return fileShareState;
+    }
+
+    public void setFileShareState(Integer fileShareState) {
+        this.fileShareState = fileShareState;
+    }
+
     @Override
     public String toString() {
         return "File{" +
@@ -66,6 +76,7 @@ public class File {
                 ", fileAddress='" + fileAddress + '\'' +
                 ", fileSize='" + fileSize + '\'' +
                 ", fileFormat='" + fileFormat + '\'' +
+                ", fileShareState=" + fileShareState +
                 '}';
     }
 }

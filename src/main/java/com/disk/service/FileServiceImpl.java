@@ -64,6 +64,42 @@ public class FileServiceImpl implements FileService{
         return i;
     }
 
+    @Override
+    public List<File> getShareFile(String id) {
+        SqlSession sqlSession = mybatisUtil.getSqlSession();
+
+        FileMapper mapper = sqlSession.getMapper(FileMapper.class);
+
+        List<File> files = mapper.getShareFile(id);
+
+        sqlSession.close();
+
+        return files;
+
+    }
+
+    @Override
+    public int updataFileState(String address, String state) {
+        SqlSession sqlSession = null;
+        FileMapper mapper = null;
+        int i = 0;
+        try {
+
+            sqlSession = mybatisUtil.getSqlSession();
+            mapper = sqlSession.getMapper(FileMapper.class);
+
+            i = mapper.updataFileState(address, state);
+
+            sqlSession.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            sqlSession.rollback();
+        }finally {
+            sqlSession.close();
+        }
+
+        return i;
+    }
 
     @Test
     public void test(){
@@ -95,6 +131,22 @@ public class FileServiceImpl implements FileService{
         int i = fileService.deleteFile("6d9f7ae3-baa8-483f-8bf3-daf52b0459a41650369028002");
 
         System.out.println();
+    }
+
+    @Test
+    public void test4(){
+        FileServiceImpl fileService = new FileServiceImpl();
+
+        List<File> files = fileService.getShareFile("a3ace03a927d4001a2202691a6949f4a");
+
+        for (File file : files) {
+            System.out.println(file);
+        }
+    }
+
+    @Test
+    public void test5(){
+        new FileServiceImpl().updataFileState("501c1b74-3496-4777-b41a-48888b9296081651854162214","1");
     }
 
 }

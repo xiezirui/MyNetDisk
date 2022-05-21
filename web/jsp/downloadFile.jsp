@@ -12,7 +12,12 @@
 </head>
 <body>
 
-hello
+<form action="${pageContext.request.contextPath}/file.do" method="get">
+    <input type="hidden" name="method" value="getShare">
+    地址:<input type="text" name="address">
+    密码:<input type="text" name="password">
+    <input type="submit" value="提交">
+</form>
 
 </body>
 </html>
