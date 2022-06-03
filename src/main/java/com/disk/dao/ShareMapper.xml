@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disk.dao.ShareMapper">
+
+    <resultMap id="fileResultMap" type="Share">
+        <result column="uid" property="uid"/>
+        <result column="faddress" property="fileAddress"/>
+        <result column="fpwd" property="filePassword"/>
+        <result column="fname" property="fileName"/>
+        <result column="shareAddress" property="fileShareAddress"/>
+
+    </resultMap>
+
+    <insert id="setSharePwd">
+        insert into mynetdisk.share(user_id,file_address,file_password,file_share_address,file_name)
+        value (#{uid},#{address},#{password},#{shareAddress},#{name})
+    </insert>
+
+    <delete id="deleteFile">
+        delete from mynetdisk.share
+        where file_address = #{address}
+    </delete>
+
+    <select id="getFileInfo" resultMap="fileResultMap">
+        select s.file_password fpwd,s.file_share_address shareAddress
+        from mynetdisk.share s
+        where file_address = #{address}
+    </select>
+
+    <select id="getShare" resultMap="fileResultMap">
+        select s.user_id uid,s.file_address faddress,s.file_password fpwd,s.file_name fname,s.file_share_address shareAddress
+        from mynetdisk.share s
+        where file_share_address = #{address} and file_password = #{password}
+    </select>
+</mapper>

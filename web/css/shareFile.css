@@ -1,0 +1,26 @@
+.sharefilelist{
+
+    left: 110px;
+
+
+    margin: 0px;
+    padding: 0px;
+
+    top: 100px;
+
+    width: 1000px;
+}
+
+.returnIcon{
+    position: fixed;
+
+    top: 100px;
+
+    border-style: solid;
+
+    height: 100px;
+    width: 100px;
+
+    text-align: center;
+    text-decoration: none;
+}
