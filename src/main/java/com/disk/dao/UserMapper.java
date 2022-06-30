@@ -8,4 +8,6 @@ public interface UserMapper {
     int addUser(HashMap map);
 
     User getUser(HashMap map);
+
+    int getTotalUserNumber();
 }

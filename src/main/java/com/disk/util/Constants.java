@@ -11,4 +11,6 @@ public class Constants {
     public final static String PASSWORD_PARAMETER = "password";
     public final static String FILENAME_PARAMETER = "name";
     public final static String shareFiles = "shareFiles";
+    public final static String TOTAL_USER_NUMBER = "TotalUserNumber";
+    public final static String TOTAL_UPLOADFILE_NUMBER = "TotalUploadFileNumber";
 }

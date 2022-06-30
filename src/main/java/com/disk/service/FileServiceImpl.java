@@ -101,6 +101,19 @@ public class FileServiceImpl implements FileService{
         return i;
     }
 
+    @Override
+    public int getTotalUploadFileNumber() {
+        SqlSession sqlSession = mybatisUtil.getSqlSession();
+
+        FileMapper mapper = sqlSession.getMapper(FileMapper.class);
+
+        int fileNumber = mapper.getTotalUploadFileNumber();
+
+        sqlSession.close();
+
+        return fileNumber;
+    }
+
     @Test
     public void test(){
         HashMap<Object, Object> map = new HashMap<Object, Object>();
@@ -146,7 +159,9 @@ public class FileServiceImpl implements FileService{
 
     @Test
     public void test5(){
-        new FileServiceImpl().updataFileState("501c1b74-3496-4777-b41a-48888b9296081651854162214","1");
+        FileServiceImpl fileService = new FileServiceImpl();
+
+        System.out.println(fileService.getTotalUploadFileNumber());
     }
 
 }

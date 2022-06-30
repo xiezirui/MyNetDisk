@@ -17,4 +17,6 @@ public interface FileService {
     int deleteFile(String address);
 
     int updataFileState(String address,String state);
+
+    int getTotalUploadFileNumber();
 }

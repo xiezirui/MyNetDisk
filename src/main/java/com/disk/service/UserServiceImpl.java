@@ -64,6 +64,19 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public int getTotalUserNumber() {
+        SqlSession sqlSession = mybatisUtil.getSqlSession();
+
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+        int userNumber = mapper.getTotalUserNumber();
+
+        sqlSession.close();
+
+        return userNumber;
+    }
+
     @Test
     public void addUser(){
         HashMap map = addUser("xiezirui", "123456", "xzr328@outlook.com");
@@ -77,9 +90,9 @@ public class UserServiceImpl implements UserService {
 
     @Test
     public void getUser(){
-        User user = getUser("xzr328@outlook.com", "123456");
-
-        System.out.println(user);
+        System.out.println(new UserServiceImpl().getTotalUserNumber());
     }
+
+
 }
 

@@ -39,7 +39,11 @@
         where f.user_id = #{id} and f.file_share_state = 0 and u.id = #{id}
     </select>
 
-<update id="updataFileState" parameterType="string">
+    <update id="updataFileState" parameterType="string">
         update mynetdisk.file set file_share_state = ${state} where file_address = "${address}"
     </update>
+
+    <select id="getTotalUploadFileNumber" resultType="int">
+        select count(*) from mynetdisk.file
+    </select>
 </mapper>

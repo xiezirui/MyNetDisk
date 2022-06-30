@@ -8,4 +8,6 @@ public interface UserService {
     HashMap<Object, Object> addUser(String username, String password, String email);
 
     User getUser(String email, String password);
+
+    int getTotalUserNumber();
 }

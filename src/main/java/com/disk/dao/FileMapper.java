@@ -16,4 +16,6 @@ public interface FileMapper {
     int deleteFile(String address);
 
     int updataFileState(@Param("address") String address,@Param("state") String state);
+
+    int getTotalUploadFileNumber();
 }

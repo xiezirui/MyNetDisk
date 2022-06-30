@@ -21,4 +21,8 @@
         where user_email = #{email} and user_password = #{password}
     </select>
 
+    <select id="getTotalUserNumber" resultType="int">
+        select count(*) from mynetdisk.user
+    </select>
+
 </mapper>
