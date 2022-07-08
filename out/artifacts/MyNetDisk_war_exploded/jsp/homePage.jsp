@@ -29,6 +29,8 @@
         <input type="submit" value="搜索">
     </form>
     </span>
+    <span><a href="/user.do?method=logout">退出登录</a></span>
+    <span><a href="/user.do?method=setting">用户设置</a></span>
 </div>
 
 

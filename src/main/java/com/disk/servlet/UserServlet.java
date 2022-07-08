@@ -34,6 +34,10 @@ public class UserServlet extends HttpServlet {
             logon(req,resp);
         }else if (method.equals("showFiles")){
             showFiles(req,resp);
+        }else if (method.equals("logout")){
+            logout(req,resp);
+        }else if (method.equals("setting")){
+            userSetting(req,resp);
         }
     }
 
@@ -82,6 +86,24 @@ public class UserServlet extends HttpServlet {
             }
             req.getSession().setAttribute(USER_SESSION,new User(((String) map.get("uid")),username,password,email));
             System.out.println(req.getSession().getAttribute(USER_SESSION));
+        }
+    }
+
+    public void logout(HttpServletRequest req, HttpServletResponse resp){
+        req.getSession().removeAttribute(USER_SESSION);
+
+        try {
+            resp.sendRedirect("/login.jsp");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void userSetting(HttpServletRequest req, HttpServletResponse resp){
+        try {
+            resp.sendRedirect("/jsp/userSetting.jsp");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
